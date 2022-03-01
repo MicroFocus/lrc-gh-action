@@ -8307,6 +8307,14 @@ module.exports = eval("require")("encoding");
 
 /***/ }),
 
+/***/ 3576:
+/***/ ((module) => {
+
+module.exports = eval("require")("tslib");
+
+
+/***/ }),
+
 /***/ 9491:
 /***/ ((module) => {
 
@@ -8466,23 +8474,29 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
-const core = __nccwpck_require__(2186);
-const github = __nccwpck_require__(5438);
+"use strict";
+var exports = __webpack_exports__;
 
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const tslib_1 = __nccwpck_require__(3576);
+const core_1 = (0, tslib_1.__importDefault)(__nccwpck_require__(2186));
+const github_1 = (0, tslib_1.__importDefault)(__nccwpck_require__(5438));
 try {
     // `who-to-greet` input defined in action metadata file
-    const nameToGreet = core.getInput('who-to-greet');
+    const nameToGreet = core_1.default.getInput('who-to-greet');
     console.log(`Hello ${nameToGreet}!`);
     const time = (new Date()).toTimeString();
-    core.setOutput("time", time);
+    core_1.default.setOutput("time", time);
     // Get the JSON webhook payload for the event that triggered the workflow
-    const payload = JSON.stringify(github.context.payload, undefined, 2)
+    const payload = JSON.stringify(github_1.default.context.payload, undefined, 2);
     console.log(`The event payload: ${payload}`);
-} catch (error) {
-    core.setFailed(error.message);
 }
+catch (error) {
+    core_1.default.setFailed(error.message);
+}
+
 })();
 
 module.exports = __webpack_exports__;
