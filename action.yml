@@ -1,13 +1,26 @@
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'LoadRunner Cloud Github Action - Run Test'
+description: 'Start a test run in LoadRunner Cloud'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  lrc_server:
+    description: 'Server URL of LoadRunner Cloud'
     required: true
-    default: 'World'
+    default: 'https://loadrunner-cloud.saas.microfocus.com'
+  lrc_tenant:
+    description: 'Tenant ID of LoadRunner Cloud'
+    required: true
+  lrc_project:
+    description: 'Project ID of LoadRunner Cloud'
+    required: true
+  lrc_test_id:
+    description: 'Test ID of LoadRunner Cloud'
+    required: false
+  lrc_config_file:
+    description: 'Load test configuration file path'
+    required: false
+    default: './lrc_test.yml'
 outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  lrc_run_id:
+    description: 'Run ID of LoadRunner Cloud'
 runs:
   using: 'node16'
   main: 'bundle/index.js'

@@ -1,15 +1,91 @@
-import * as core from '@actions/core';
-import * as github from '@actions/github';
+import process from 'process';
 
-try {
-    // `who-to-greet` input defined in action metadata file
-    const nameToGreet = core.getInput('who-to-greet');
-    console.log(`Hello ${nameToGreet}!`);
-    const time = (new Date()).toTimeString();
-    core.setOutput("time", time);
-    // Get the JSON webhook payload for the event that triggered the workflow
-    const payload = JSON.stringify(github.context.payload, undefined, 2)
-    console.log(`The event payload: ${payload}`);
-} catch (error) {
-    core.setFailed((error as Error).message);
+import * as core from '@actions/core';
+
+import LRCClient from 'lrcrunner/lib/Client';
+import lrcUtils from 'lrcrunner/lib/utils';
+
+const GITHUB_INPUT_NAME = {
+    SERVER_URL: 'lrc_server',
+    TENANT: 'lrc_tenant',
+    PROJECT: 'lrc_project',
+    TEST_ID: 'lrc_test_id',
+    CONFIG_FILE: 'lrc_config_file',
+};
+
+interface InputFromGithub {
+    url: string;
+    tenantId: string;
+    projectId: number;
+    testId: number;
+    configFile: string;
 }
+
+function parseInput(): InputFromGithub {
+    const serverURLStr = core.getInput(GITHUB_INPUT_NAME.SERVER_URL);
+    const tenantId = core.getInput(GITHUB_INPUT_NAME.TENANT);
+    const projectIdStr = core.getInput(GITHUB_INPUT_NAME.PROJECT);
+    const testIdStr = core.getInput(GITHUB_INPUT_NAME.TEST_ID);
+    const configFile = core.getInput(GITHUB_INPUT_NAME.CONFIG_FILE);
+
+    return {
+        url: serverURLStr,
+        tenantId,
+        projectId: Number(projectIdStr),
+        testId: Number(testIdStr),
+        configFile,
+    };
+}
+
+const logger = {
+    info: console.log,
+    warn: console.log,
+    error: console.log,
+    debug: console.log,
+    fatal: console.log,
+};
+
+function getClient(config: InputFromGithub): LRCClient {
+    const client = new LRCClient(config.tenantId, config.url, process.env.http_proxy, logger);
+
+    return client;
+}
+
+async function run() {
+    const input = parseInput();
+    console.log(`got input from Github ${JSON.stringify(input, null, 4)}`);
+    const client = getClient(input);
+    const client_id = process.env.LRC_CLIENT_ID;
+    const client_secret = process.env.LRC_CLIENT_SECRET;
+    await client.authClient({ client_id, client_secret });
+    logger.info(`test id: ${input.testId}`);
+    const test = await client.getTest(input.projectId, input.testId);
+    logger.info(`running test: "${test.name}" ...`);
+
+    // run test
+    const currRun = await client.runTest(input.projectId, input.testId);
+    logger.info(
+        `run id: ${currRun.runId}, url: ${lrcUtils.getDashboardUrl(
+            new URL(input.url),
+            input.tenantId,
+            input.projectId,
+            currRun.runId,
+            false
+        )}`
+    );
+
+    // run status and report
+    await client.getRunStatusAndResultReport(
+        currRun.runId,
+        true,
+        ['csv', 'pdf'],
+        './'
+    );
+}
+
+run()
+    .then(() => console.log('done'))
+    .catch((err) => {
+        console.log(err);
+        core.setFailed((err as Error).message);
+    });
