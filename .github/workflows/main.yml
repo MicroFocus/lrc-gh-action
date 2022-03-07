@@ -39,11 +39,11 @@ jobs:
           LRC_CLIENT_ID: ${{secrets.LRC_CLIENT_ID}}
           LRC_CLIENT_SECRET: ${{secrets.LRC_CLIENT_SECRET}}
         with:
-          lrc_server: ${{ github.event.input.lrc_server }}
-          lrc_tenant: ${{ github.event.input.lrc_tenant }}
-          lrc_project: ${{ github.event.input.lrc_project }}
-          lrc_test_id: ${{ github.event.input.lrc_test_id }}
-          lrc_config_file: ${{ github.event.input.lrc_config_file }}
-          lrc_output_dir: ${{ github.event.input.lrc_output_dir }}
+          lrc_server: ${{ github.event.inputs.lrc_server }}
+          lrc_tenant: ${{ github.event.inputs.lrc_tenant }}
+          lrc_project: ${{ github.event.inputs.lrc_project }}
+          lrc_test_id: ${{ github.event.inputs.lrc_test_id }}
+          lrc_config_file: ${{ github.event.inputs.lrc_config_file }}
+          lrc_output_dir: ${{ github.event.inputs.lrc_output_dir }}
       - name: Get the output runId
         run: echo "LRC Run ID is ${{ steps.lrc_run_test.outputs.lrc_run_id }}"
