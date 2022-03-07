@@ -11,6 +11,7 @@ const GITHUB_INPUT_NAME = {
     PROJECT: 'lrc_project',
     TEST_ID: 'lrc_test_id',
     CONFIG_FILE: 'lrc_config_file',
+    OUTPUT_DIR: 'lrc_output_dir'
 };
 
 interface InputFromGithub {
@@ -19,14 +20,17 @@ interface InputFromGithub {
     projectId: number;
     testId: number;
     configFile: string;
+    outputDir: string;
 }
 
+// #TODO: add input validation
 function parseInput(): InputFromGithub {
     const serverURLStr = core.getInput(GITHUB_INPUT_NAME.SERVER_URL);
     const tenantId = core.getInput(GITHUB_INPUT_NAME.TENANT);
     const projectIdStr = core.getInput(GITHUB_INPUT_NAME.PROJECT);
     const testIdStr = core.getInput(GITHUB_INPUT_NAME.TEST_ID);
     const configFile = core.getInput(GITHUB_INPUT_NAME.CONFIG_FILE);
+    const outputDir = core.getInput(GITHUB_INPUT_NAME.OUTPUT_DIR);
 
     return {
         url: serverURLStr,
@@ -34,6 +38,7 @@ function parseInput(): InputFromGithub {
         projectId: Number(projectIdStr),
         testId: Number(testIdStr),
         configFile,
+        outputDir
     };
 }
 
@@ -79,12 +84,17 @@ async function run() {
         currRun.runId,
         true,
         ['csv', 'pdf'],
-        './'
+        input.outputDir
     );
+
+    return currRun;
 }
 
 run()
-    .then(() => console.log('done'))
+    .then((lrcRun) => {
+        console.log(`done, got run id: ${lrcRun.runId}`);
+        core.setOutput('lrc_run_id', lrcRun.runId);
+    })
     .catch((err) => {
         console.log(err);
         core.setFailed((err as Error).message);
