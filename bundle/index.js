@@ -51100,7 +51100,8 @@ const GITHUB_INPUT_NAME = {
     PROJECT: 'lrc_project',
     TEST_ID: 'lrc_test_id',
     CONFIG_FILE: 'lrc_config_file',
-    OUTPUT_DIR: 'lrc_output_dir'
+    OUTPUT_DIR: 'lrc_output_dir',
+    REPORT_TYPES: 'lrc_report_types'
 };
 // #TODO: add input validation
 function parseInput() {
@@ -51110,13 +51111,16 @@ function parseInput() {
     const testIdStr = core.getInput(GITHUB_INPUT_NAME.TEST_ID);
     const configFile = core.getInput(GITHUB_INPUT_NAME.CONFIG_FILE);
     const outputDir = core.getInput(GITHUB_INPUT_NAME.OUTPUT_DIR);
+    const reportTypesStr = core.getInput(GITHUB_INPUT_NAME.REPORT_TYPES) || '';
+    const reportTypes = reportTypesStr.split(',');
     return {
         url: serverURLStr,
         tenantId,
         projectId: Number(projectIdStr),
         testId: Number(testIdStr),
         configFile,
-        outputDir
+        outputDir,
+        reportTypes
     };
 }
 const logger = {
@@ -51144,7 +51148,7 @@ async function run() {
     const currRun = await client.runTest(input.projectId, input.testId);
     logger.info(`run id: ${currRun.runId}, url: ${utils_1.default.getDashboardUrl(new URL(input.url), input.tenantId, input.projectId, currRun.runId, false)}`);
     // run status and report
-    await client.getRunStatusAndResultReport(currRun.runId, true, ['csv', 'pdf'], input.outputDir);
+    await client.getRunStatusAndResultReport(currRun.runId, true, input.reportTypes, input.outputDir);
     return currRun;
 }
 run()

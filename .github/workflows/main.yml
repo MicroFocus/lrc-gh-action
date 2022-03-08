@@ -22,6 +22,10 @@ on:
         description: 'Path where you want to store the output files, like csv/pdf reports and so on.'
         required: false
         default: './'
+      lrc_report_types:
+        description: 'LoadRunner Cloud report file types to download'
+        required: false
+        default: ''
 
 jobs:
   hello_world_job:
@@ -45,5 +49,11 @@ jobs:
           lrc_test_id: ${{ github.event.inputs.lrc_test_id }}
           lrc_config_file: ${{ github.event.inputs.lrc_config_file }}
           lrc_output_dir: ${{ github.event.inputs.lrc_output_dir }}
+          lrc_report_types: ${{ github.event.inputs.lrc_report_types }}
       - name: Get the output runId
         run: echo "LRC Run ID is ${{ steps.lrc_run_test.outputs.lrc_run_id }}"
+      - name: upload lrc report
+        uses: actions/upload-artifact@v3
+        with:
+          name: lrc-report-${{ steps.lrc_run_test.outputs.lrc_run_id }}
+          path: ${{ github.event.inputs.lrc_output_dir }}
