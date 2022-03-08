@@ -11,6 +11,16 @@
         "type": "git",
         "url": "https://github.com/MicroFocus/lrc-gh-action"
     },
+    "contributors": [
+    {
+      "name": "Xiao-yuan Qi",
+      "email": "xiao-yuan.qi@microfocus.com"
+    },
+    {
+      "name": "Wei Sun",
+      "email": "wei.sun10@microfocus.com"
+    }
+  ],
     "keywords": [],
     "author": "",
     "license": "MIT",
