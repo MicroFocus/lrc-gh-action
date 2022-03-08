@@ -4,6 +4,7 @@ import * as core from '@actions/core';
 
 import LRCClient from 'lrcrunner/lib/Client';
 import lrcUtils from 'lrcrunner/lib/utils';
+import { ActionInputFromGithub } from './ActionInputFromGithub';
 
 const GITHUB_INPUT_NAME = {
     SERVER_URL: 'lrc_server',
@@ -12,21 +13,10 @@ const GITHUB_INPUT_NAME = {
     TEST_ID: 'lrc_test_id',
     CONFIG_FILE: 'lrc_config_file',
     OUTPUT_DIR: 'lrc_output_dir',
-    REPORT_TYPES: 'lrc_report_types'
+    REPORT_TYPES: 'lrc_report_types',
 };
 
-interface InputFromGithub {
-    url: string;
-    tenantId: string;
-    projectId: number;
-    testId: number;
-    configFile: string;
-    outputDir: string;
-    reportTypes: string[];
-}
-
-// #TODO: add input validation
-function parseInput(): InputFromGithub {
+async function parseInput(): Promise<ActionInputFromGithub> {
     const serverURLStr = core.getInput(GITHUB_INPUT_NAME.SERVER_URL);
     const tenantId = core.getInput(GITHUB_INPUT_NAME.TENANT);
     const projectIdStr = core.getInput(GITHUB_INPUT_NAME.PROJECT);
@@ -34,17 +24,23 @@ function parseInput(): InputFromGithub {
     const configFile = core.getInput(GITHUB_INPUT_NAME.CONFIG_FILE);
     const outputDir = core.getInput(GITHUB_INPUT_NAME.OUTPUT_DIR);
     const reportTypesStr = core.getInput(GITHUB_INPUT_NAME.REPORT_TYPES) || '';
-    const reportTypes = reportTypesStr.split(',');
 
-    return {
-        url: serverURLStr,
+    const result = await ActionInputFromGithub.readGithubInput(
+        serverURLStr,
         tenantId,
-        projectId: Number(projectIdStr),
-        testId: Number(testIdStr),
-        configFile,
+        projectIdStr,
+        testIdStr,
         outputDir,
-        reportTypes
-    };
+        reportTypesStr,
+        configFile,
+    );
+
+    if (result.input === null || (result.errMsgs && result.errMsgs.length)) {
+        core.error(result.errMsgs?.join('\n'));
+        throw new Error('invalid input');
+    }
+
+    return result.input;
 }
 
 const logger = {
@@ -55,29 +51,34 @@ const logger = {
     fatal: console.log,
 };
 
-function getClient(config: InputFromGithub): LRCClient {
-    const client = new LRCClient(config.tenantId, config.url, process.env.http_proxy, logger);
+function getClient(config: ActionInputFromGithub): LRCClient {
+    const client = new LRCClient(
+        config.tenantId,
+        config.serverUrl,
+        process.env.http_proxy,
+        logger
+    );
 
     return client;
 }
 
 async function run() {
-    const input = parseInput();
-    console.log(`got input from Github ${JSON.stringify(input, null, 4)}`);
+    const input = await parseInput();
+    core.info(`got input from Github ${JSON.stringify(input, null, 4)}`);
     const client = getClient(input);
     const client_id = process.env.LRC_CLIENT_ID;
     const client_secret = process.env.LRC_CLIENT_SECRET;
 
     await client.authClient({ client_id, client_secret });
-    logger.info(`test id: ${input.testId}`);
+    core.info(`test id: ${input.testId}`);
     const test = await client.getTest(input.projectId, input.testId);
-    logger.info(`running test: "${test.name}" ...`);
+    core.info(`running test: "${test.name}" ...`);
 
     // run test
     const currRun = await client.runTest(input.projectId, input.testId);
-    logger.info(
+    core.info(
         `run id: ${currRun.runId}, url: ${lrcUtils.getDashboardUrl(
-            new URL(input.url),
+            new URL(input.serverUrl),
             input.tenantId,
             input.projectId,
             currRun.runId,
@@ -98,10 +99,10 @@ async function run() {
 
 run()
     .then((lrcRun) => {
-        console.log(`done, got run id: ${lrcRun.runId}`);
+        core.info(`done, got run id: ${lrcRun.runId}`);
         core.setOutput('lrc_run_id', lrcRun.runId);
     })
     .catch((err) => {
-        console.log(err);
+        core.error(err);
         core.setFailed((err as Error).message);
     });
