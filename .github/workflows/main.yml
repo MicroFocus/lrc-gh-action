@@ -17,7 +17,7 @@ on:
       lrc_config_file:
         description: 'Load test configuration file path'
         required: false
-        default: './lrc_test.yml'
+        default: ''
       lrc_output_dir:
         description: 'Path where you want to store the output files, like csv/pdf reports and so on.'
         required: false
