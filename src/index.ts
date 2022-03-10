@@ -6,24 +6,14 @@ import LRCClient from 'lrcrunner/lib/Client';
 import lrcUtils from 'lrcrunner/lib/utils';
 import { ActionInputFromGithub } from './ActionInputFromGithub';
 
-const GITHUB_INPUT_NAME = {
-    SERVER_URL: 'lrc_server',
-    TENANT: 'lrc_tenant',
-    PROJECT: 'lrc_project',
-    TEST_ID: 'lrc_test_id',
-    CONFIG_FILE: 'lrc_config_file',
-    OUTPUT_DIR: 'lrc_output_dir',
-    REPORT_TYPES: 'lrc_report_types',
-};
-
 async function parseInput(): Promise<ActionInputFromGithub> {
-    const serverURLStr = core.getInput(GITHUB_INPUT_NAME.SERVER_URL);
-    const tenantId = core.getInput(GITHUB_INPUT_NAME.TENANT);
-    const projectIdStr = core.getInput(GITHUB_INPUT_NAME.PROJECT);
-    const testIdStr = core.getInput(GITHUB_INPUT_NAME.TEST_ID);
-    const configFile = core.getInput(GITHUB_INPUT_NAME.CONFIG_FILE);
-    const outputDir = core.getInput(GITHUB_INPUT_NAME.OUTPUT_DIR);
-    const reportTypesStr = core.getInput(GITHUB_INPUT_NAME.REPORT_TYPES) || '';
+    const serverURLStr = core.getInput(ActionInputFromGithub.GITHUB_INPUT_NAME.SERVER_URL);
+    const tenantId = core.getInput(ActionInputFromGithub.GITHUB_INPUT_NAME.TENANT);
+    const projectIdStr = core.getInput(ActionInputFromGithub.GITHUB_INPUT_NAME.PROJECT);
+    const testIdStr = core.getInput(ActionInputFromGithub.GITHUB_INPUT_NAME.TEST_ID);
+    const configFile = core.getInput(ActionInputFromGithub.GITHUB_INPUT_NAME.CONFIG_FILE);
+    const outputDir = core.getInput(ActionInputFromGithub.GITHUB_INPUT_NAME.OUTPUT_DIR);
+    const reportTypesStr = core.getInput(ActionInputFromGithub.GITHUB_INPUT_NAME.REPORT_TYPES) || '';
 
     const result = await ActionInputFromGithub.readGithubInput(
         serverURLStr,
