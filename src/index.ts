@@ -1,3 +1,11 @@
+/*
+ * #© Copyright 2022 - Micro Focus or one of its affiliates
+ * #
+ * # The only warranties for products and services of Micro Focus and its affiliates and licensors (“Micro Focus”)                                                                  * # are as may be set forth in the express warranty statements accompanying such products and services.                                                                            * # Nothing herein should be construed as constituting an additional warranty.
+ * # Micro Focus shall not be liable for technical or editorial errors or omissions contained herein.                                                                               * # The information contained herein is subject to change without notice.
+ *
+ */
+
 import process from 'process';
 
 import * as core from '@actions/core';
@@ -76,7 +84,7 @@ async function run() {
         )}`
     );
 
-    // run status and report
+    // get run status and report
     await client.getRunStatusAndResultReport(
         currRun.runId,
         true,

@@ -14,7 +14,7 @@ This action can be used on both [Github-hosted]() and [self hosted]() runners. W
 
 ### Start a load test manually and upload report files as [Github Artifact]()
 
-```
+```yml
 on: 
   workflow_dispatch:
     inputs:
@@ -67,7 +67,7 @@ jobs:
           path: ${{ github.event.inputs.lrc_output_dir }}
 ```
 
-## Action input
+## Action Input
 
 #### lrc_server
 
