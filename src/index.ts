@@ -83,6 +83,7 @@ async function run() {
             false
         )}`
     );
+    core.setOutput('lrc_run_id', currRun.runId);
 
     // get run status and report
     await client.getRunStatusAndResultReport(
@@ -92,14 +93,15 @@ async function run() {
         input.outputDir
     );
 
+    const { detailedStatus } = await client.getTestRunStatus(currRun.runId);
+    if (detailedStatus !== 'PASSED') {
+        core.setFailed(`test run ended with ${detailedStatus}.`)
+    }
+
     return currRun;
 }
 
 run()
-    .then((lrcRun) => {
-        core.info(`done, got run id: ${lrcRun.runId}`);
-        core.setOutput('lrc_run_id', lrcRun.runId);
-    })
     .catch((err) => {
         core.error(err);
         core.setFailed((err as Error).message);
