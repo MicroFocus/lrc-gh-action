@@ -30,7 +30,7 @@ on:
         required: true
       lrc_test_id:
         description: 'Test ID of LoadRunner Cloud'
-        required: false
+        required: true
       lrc_output_dir:
         description: 'Path where you want to store the output files, like csv/pdf reports and so on.'
         required: false
@@ -85,10 +85,6 @@ Project ID of LoadRunner Cloud
 #### lrc_test_id
 
 Test ID of LoadRunner Cloud
-
-#### lrc_config_file
-
-TODO
 
 #### lrc_output_dir
 
