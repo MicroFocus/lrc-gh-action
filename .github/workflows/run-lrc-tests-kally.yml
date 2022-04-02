@@ -1,0 +1,54 @@
+on: 
+  workflow_dispatch:
+    inputs:
+      lrc_server:
+        description: 'Server URL of LoadRunner Cloud'
+        required: true
+        default: 'https://srl-qa7.saas.microfocus.com'
+      lrc_tenant:
+        description: 'Tenant ID of LoadRunner Cloud'
+        required: true
+      lrc_project:
+        description: 'Project ID of LoadRunner Cloud'
+        required: true
+      lrc_test_id:
+        description: 'Test ID of LoadRunner Cloud'
+        required: true
+      lrc_output_dir:
+        description: 'Path where you want to store the output files, like csv/pdf reports and so on.'
+        required: false
+        default: './'
+      lrc_report_types:
+        description: 'LoadRunner Cloud report file types to download'
+        required: false
+        default: ''
+
+jobs:
+  hello_world_job:
+    runs-on: ubuntu-latest
+    name: A job to say hello
+    steps:
+      # To use this repository's private action,
+      # you must check out the repository
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run LoadRunner test
+        uses: ./ # Uses an action in the root directory
+        id: lrc_run_test
+        env:
+          LRC_CLIENT_ID: ${{secrets.LRC_CLIENT_ID_QA7}}
+          LRC_CLIENT_SECRET: ${{secrets.LRC_CLIENT_SECRET_QA7}}
+        with:
+          lrc_server: ${{ github.event.inputs.lrc_server }}
+          lrc_tenant: ${{ github.event.inputs.lrc_tenant }}
+          lrc_project: ${{ github.event.inputs.lrc_project }}
+          lrc_test_id: ${{ github.event.inputs.lrc_test_id }}
+          lrc_output_dir: ${{ github.event.inputs.lrc_output_dir }}
+          lrc_report_types: ${{ github.event.inputs.lrc_report_types }}
+      - name: Get the output runId
+        run: echo "LRC Run ID is ${{ steps.lrc_run_test.outputs.lrc_run_id }}"
+      - name: upload lrc report
+        uses: actions/upload-artifact@v3
+        with:
+          name: lrc-report-${{ steps.lrc_run_test.outputs.lrc_run_id }}
+          path: ${{ github.event.inputs.lrc_output_dir }}
