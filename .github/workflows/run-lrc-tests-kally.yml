@@ -46,8 +46,10 @@ jobs:
           lrc_output_dir: ${{ github.event.inputs.lrc_output_dir }}
           lrc_report_types: ${{ github.event.inputs.lrc_report_types }}
       - name: Get the output runId
+        if: always()
         run: echo "LRC Run ID is ${{ steps.lrc_run_test.outputs.lrc_run_id }}"
       - name: upload lrc report
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: lrc-report-${{ steps.lrc_run_test.outputs.lrc_run_id }}
