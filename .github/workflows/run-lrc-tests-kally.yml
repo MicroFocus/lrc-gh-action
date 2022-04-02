@@ -36,8 +36,8 @@ jobs:
         uses: ./ # Uses an action in the root directory
         id: lrc_run_test
         env:
-          LRC_CLIENT_ID: ${{secrets.LRC_CLIENT_ID_QA7}}
-          LRC_CLIENT_SECRET: ${{secrets.LRC_CLIENT_SECRET_QA7}}
+          LRC_CLIENT_ID: ${{secrets.LRC_CLIENT_ID_582790660}}
+          LRC_CLIENT_SECRET: ${{secrets.LRC_CLIENT_SECRET_582790660}}
         with:
           lrc_server: ${{ github.event.inputs.lrc_server }}
           lrc_tenant: ${{ github.event.inputs.lrc_tenant }}
