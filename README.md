@@ -2,17 +2,17 @@
 
 Use this action to [run a LoadRunner Cloud test]() and get related reports.
 
-This action can be used on both [Github-hosted]() and [self hosted]() runners. We recommend using a self-hosted runner because a load test run could take long time to finish.
+This action can be used on both [Github-hosted](https://docs.github.com/en/actions/using-github-hosted-runners) and [self hosted](https://docs.github.com/en/actions/hosting-your-own-runners) runners. We recommend using a self-hosted runner because a load test run could take long time to finish.
 
 ## Prerequisite
 
 1. Get client id and secret key from [LoadRunner Cloud - API Access]()
-2. Copy the client id and secret key to [Github Secret](), name them as `LRC_CLIENT_ID` and `LRC_SECRET_KEY`. Those two secret names will be used in the action.
+2. Copy the client id and secret key to [Github Secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository), name them as `LRC_CLIENT_ID` and `LRC_CLIENT_SECRET`. Those two secret names will be used in the action.
 3. Prepare a load test in LoadRunner Cloud.
 
 ## Usage Example
 
-### Start a load test manually and upload report files as [Github Artifact]()
+### Start a load test manually and upload report files as [Github Artifact](https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts)
 
 ```yml
 on: 
