@@ -1,12 +1,12 @@
 # Github Action for LoadRunner Cloud
 
-Use this action to [run a LoadRunner Cloud test]() and get related reports.
+Use this action to [run a LoadRunner Cloud test](https://admhelp.microfocus.com/lrc/en/2022.03/Content/Storm/t_run_load_test.htm) and get related reports.
 
 This action can be used on both [Github-hosted](https://docs.github.com/en/actions/using-github-hosted-runners) and [self hosted](https://docs.github.com/en/actions/hosting-your-own-runners) runners. We recommend using a self-hosted runner because a load test run could take long time to finish.
 
 ## Prerequisite
 
-1. Get client id and secret key from [LoadRunner Cloud - API Access]()
+1. Get client id and secret key from [LoadRunner Cloud - API Access](https://admhelp.microfocus.com/lrc/en/2022.03/Content/Storm/Admin-APIAccess.htm)
 2. Copy the client id and secret key to [Github Secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository), name them as `LRC_CLIENT_ID` and `LRC_CLIENT_SECRET`. Those two secret names will be used in the action.
 3. Prepare a load test in LoadRunner Cloud.
 

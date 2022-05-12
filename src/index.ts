@@ -75,7 +75,7 @@ async function run() {
     // run test
     const currRun = await client.runTest(input.projectId, input.testId);
     core.info(
-        `run id: ${currRun.runId}, url: ${lrcUtils.getDashboardUrl(
+        `run id: ${currRun.runId}, dashboard url: ${lrcUtils.getDashboardUrl(
             new URL(input.serverUrl),
             input.tenantId,
             input.projectId,
