@@ -68,6 +68,73 @@ jobs:
           path: ${{ github.event.inputs.lrc_output_dir }}
 ```
 
+### Build, deploy and start test after a new release published
+
+```yml
+on:
+  release:
+    types: [published, edited]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.release.tag_name }}
+      - uses: actions/setup-node@v3.2.0
+        with:
+          node-version: '16.x'
+      - name: npm build
+        run: npm install && npm run build
+      # omit azure login, docker build process ...
+      - uses: 'azure/aci-deploy@v1'
+        with:
+          image: 'sampleapp:${{ github.event.release.tag_name }}'
+      # ...
+  load_test:
+    needs: build
+    runs-on: self-hosted
+    name: Start a load test
+    steps:
+      - name: Run LoadRunner test
+        uses: MicroFocus/lrc-gh-action@v1
+        id: lrc_run_test
+        env:
+          LRC_CLIENT_ID: ${{secrets.LRC_CLIENT_ID}}
+          LRC_CLIENT_SECRET: ${{secrets.LRC_CLIENT_SECRET}}
+        with:
+          lrc_server: 'https://loadrunner-cloud.saas.microfocus.com'
+          lrc_tenant: 'TENANTID'
+          lrc_project: '1'
+          lrc_test_id: '1'
+```
+
+### Trigger load test by [Github schedule events](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule)
+
+```yml
+on:
+  schedule:
+    # run at 05:00 on every Friday
+    cron: '0 5 * * 5'
+jobs:
+  load_test:
+    runs-on: self-hosted
+    name: Start a load test
+    steps:
+      - name: Run LoadRunner test
+        uses: MicroFocus/lrc-gh-action@v1
+        id: lrc_run_test
+        env:
+          LRC_CLIENT_ID: ${{secrets.LRC_CLIENT_ID}}
+          LRC_CLIENT_SECRET: ${{secrets.LRC_CLIENT_SECRET}}
+        with:
+          lrc_server: 'https://loadrunner-cloud.saas.microfocus.com'
+          lrc_tenant: 'TENANTID'
+          lrc_project: '1'
+          lrc_test_id: '1'
+```
+
 ## Action Input
 
 #### lrc_server
