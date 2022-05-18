@@ -28,6 +28,7 @@ on:
       lrc_project:
         description: 'Project ID of LoadRunner Cloud'
         required: true
+        default: '1'
       lrc_test_id:
         description: 'Test ID of LoadRunner Cloud'
         required: true
