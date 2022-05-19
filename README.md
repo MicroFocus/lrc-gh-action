@@ -1,18 +1,18 @@
-# Github Action for LoadRunner Cloud
+# GitHub Action for LoadRunner Cloud
 
-Use this action to [run a LoadRunner Cloud test](https://admhelp.microfocus.com/lrc/en/2022.03/Content/Storm/t_run_load_test.htm) and get related reports.
+Use this action to run a [LoadRunner Cloud test](https://admhelp.microfocus.com/lrc/en/Latest/Content/Storm/t_run_load_test.htm) and generate artifacts.
 
-This action can be used on both [Github-hosted](https://docs.github.com/en/actions/using-github-hosted-runners) and [self hosted](https://docs.github.com/en/actions/hosting-your-own-runners) runners. We recommend using a self-hosted runner because a load test run could take long time to finish.
+This action can be used on both [self-hosted](https://docs.github.com/en/actions/hosting-your-own-runners) and [GitHub-hosted](https://docs.github.com/en/actions/using-github-hosted-runners) runners.
 
-## Prerequisite
+## Prerequisites
 
-1. Get client id and secret key from [LoadRunner Cloud - API Access](https://admhelp.microfocus.com/lrc/en/2022.03/Content/Storm/Admin-APIAccess.htm)
-2. Copy the client id and secret key to [Github Secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository), name them as `LRC_CLIENT_ID` and `LRC_CLIENT_SECRET`. Those two secret names will be used in the action.
+1. Get your client id and secret key. Refer to [LoadRunner Cloud - API access keys](https://admhelp.microfocus.com/lrc/en/Latest/Content/Storm/Admin-APIAccess.htm)
+2. Configure the client id and secret key in [GitHub Secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository). For example: `LRC_CLIENT_ID` and `LRC_CLIENT_SECRET`. Those two secret names will be used in below examples.
 3. Prepare a load test in LoadRunner Cloud.
 
-## Usage Example
+## Examples
 
-### Start a load test manually and upload report files as [Github Artifact](https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts)
+### Start a load test by manually triggered workflows and upload artifacts as [GitHub Artifact](https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts)
 
 ```yml
 on: 
@@ -68,7 +68,7 @@ jobs:
           path: ${{ github.event.inputs.lrc_output_dir }}
 ```
 
-### Build, deploy and start test after a new release published
+### Build, deploy and start test after a new release is published or edited
 
 ```yml
 on:
@@ -110,7 +110,7 @@ jobs:
           lrc_test_id: '1'
 ```
 
-### Trigger load test by [Github schedule events](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule)
+### Trigger a load test at a scheduled time by [GitHub schedule events](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule)
 
 ```yml
 on:
@@ -135,12 +135,11 @@ jobs:
           lrc_test_id: '1'
 ```
 
-## Action Input
+## Action Inputs
 
 #### lrc_server
 
-The server url of LoadRunner Cloud, default is https://loadrunner-cloud.saas.microfocus.com
-
+The server URL of LoadRunner Cloud, default: https://loadrunner-cloud.saas.microfocus.com
 
 #### lrc_tenant
 
@@ -148,7 +147,7 @@ Tenant ID of LoadRunner Cloud
 
 #### lrc_project
 
-Project ID of LoadRunner Cloud
+Project ID of LoadRunner Cloud, default: 1
 
 #### lrc_test_id
 
@@ -160,9 +159,8 @@ Where you want to save the report files. This path can be used in following step
 
 #### lrc_report_types
 
-Tell this action which types of report should be downloaded. Use comma to split multiple types, for example: `pdf,docx,csv`
-
-Currently we support these 3 types of report. Leave it blank if you don't need report downloading.
+Specify target report types. For example: `pdf, docx, csv`. 
+There are 3 supported report types: pdf, docx, csv. Leave it blank if you don't need reports.
 
 ## Action Output
 
