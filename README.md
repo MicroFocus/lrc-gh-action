@@ -7,8 +7,26 @@ This action can be used on both [self-hosted](https://docs.github.com/en/actions
 ## Prerequisites
 
 1. Get your client id and secret key. Refer to [LoadRunner Cloud - API access keys](https://admhelp.microfocus.com/lrc/en/Latest/Content/Storm/Admin-APIAccess.htm)
-2. Configure the client id and secret key in [GitHub Secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository). For example: `LRC_CLIENT_ID` and `LRC_CLIENT_SECRET`. Those two secret names will be used in below examples.
+2. Configure the client id and secret key in [GitHub Secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository).   
+   For example: `LRC_CLIENT_ID` and `LRC_CLIENT_SECRET`. Those two secret names are used in below examples.
 3. Prepare a load test in LoadRunner Cloud.
+
+## Action Inputs
+
+| Input            | Description                                                                                                                                           |
+|------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| lrc_server       | The server URL of LoadRunner Cloud, default: https://loadrunner-cloud.saas.microfocus.com                                                             |
+| lrc_tenant       | Tenant ID of LoadRunner Cloud                                                                                                                         |
+| lrc_project      | Project ID of LoadRunner Cloud, default: 1                                                                                                            |
+| lrc_test_id      | Test ID of LoadRunner Cloud                                                                                                                           |
+| lrc_output_dir   | Where to save the report files. <br/>This path can be used in following steps such as "Upload artifacts"                                               |
+| lrc_report_types | Specify target report types. For example: `pdf, docx, csv`.  <br/>There are 3 supported report types: pdf, docx, csv. Leave it blank if you don't need reports. |
+
+## Action Outputs
+
+| Output     | Description                                |
+|------------|--------------------------------------------|
+| lrc_run_id | The ID of test run started by this action. |
 
 ## Examples
 
@@ -134,36 +152,3 @@ jobs:
           lrc_project: '1'
           lrc_test_id: '1'
 ```
-
-## Action Inputs
-
-#### lrc_server
-
-The server URL of LoadRunner Cloud, default: https://loadrunner-cloud.saas.microfocus.com
-
-#### lrc_tenant
-
-Tenant ID of LoadRunner Cloud
-
-#### lrc_project
-
-Project ID of LoadRunner Cloud, default: 1
-
-#### lrc_test_id
-
-Test ID of LoadRunner Cloud
-
-#### lrc_output_dir
-
-Where you want to save the report files. This path can be used in following steps such as "Upload artifacts"
-
-#### lrc_report_types
-
-Specify target report types. For example: `pdf, docx, csv`. 
-There are 3 supported report types: pdf, docx, csv. Leave it blank if you don't need reports.
-
-## Action Output
-
-#### lrc_run_id
-
-The ID of test run started by this action.
