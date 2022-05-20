@@ -103,3 +103,6 @@ typings/
 .tern-port
 
 dist
+
+.idea
+*.iml
