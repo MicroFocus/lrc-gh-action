@@ -13,24 +13,24 @@ This action can be used on both [self-hosted](https://docs.github.com/en/actions
 
 ## Action Inputs
 
-| Input            | Description                                                                                                                                                    |
-|------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **lrc_server**       | Server URL, default: https://loadrunner-cloud.saas.microfocus.com                                                                                              |
-| **lrc_tenant**       | Tenant ID, for example: 652261341                                                                                                                              |
-| **lrc_project**      | Project ID, default: 1                                                                                                                                         |
-| **lrc_test_id**      | Test ID                                                                                                                                                        |
-| **lrc_output_dir**   | Where to save the report files. <br/>This path can be used in following steps such as "Upload artifacts"                                                       |
+| Input                | Description                                                                                                                                                     |
+|----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **lrc_server**       | Server URL, default: https://loadrunner-cloud.saas.microfocus.com                                                                                               |
+| **lrc_tenant**       | Tenant ID, for example: 652261341                                                                                                                               |
+| **lrc_project**      | Project ID, default: 1                                                                                                                                          |
+| **lrc_test_id**      | Test ID                                                                                                                                                         |
+| **lrc_output_dir**   | Where to save the report files. <br/>This path can be used in following steps such as "Upload artifacts"                                                        |
 | **lrc_report_types** | Specify target report types. For example: `pdf, docx, csv`.  <br/>There are 3 supported report types: pdf, docx, csv. Leave it blank if you don't need reports. |
 
 ## Action Outputs
 
-| <div style="width:100px">Output</div> | <div style="width:560px">Description</div> |
-|---------------------------------------|--------------------------------------------|
-| **lrc_run_id**                            | The ID of test run started by this action. |
+| Output         | Description                                |
+|----------------|--------------------------------------------|
+| **lrc_run_id** | The ID of test run started by this action. |
 
 ## Examples
 
-### Start a load test by manually triggered workflows and upload artifacts as [GitHub Artifact](https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts)
+### Start a load test via manually triggered workflow and upload artifacts as [GitHub Artifact](https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts)
 
 ```yml
 on: 
@@ -86,7 +86,7 @@ jobs:
           path: ${{ github.event.inputs.lrc_output_dir }}
 ```
 
-### Build, deploy and start test after a new release is published or edited
+### Build, deploy and start a load test once a new release is published or edited
 
 ```yml
 on:
