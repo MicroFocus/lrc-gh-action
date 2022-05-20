@@ -5,7 +5,7 @@
     "main": "bundle/index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "ncc build ./src/index.ts --license licenses.txt -o bundle -m"
+        "build": "ncc build ./src/index.ts --license licenses.txt -o bundle"
     },
     "repository": {
         "type": "git",
