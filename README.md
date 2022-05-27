@@ -1,3 +1,5 @@
+[![CodeQL](https://github.com/MicroFocus/lrc-gh-action/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/MicroFocus/lrc-gh-action/actions/workflows/codeql-analysis.yml)
+
 # GitHub Action for LoadRunner Cloud
 
 Use this action to run a [LoadRunner Cloud test](https://admhelp.microfocus.com/lrc/en/Latest/Content/Storm/t_run_load_test.htm) and collect reports.
