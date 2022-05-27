@@ -32,6 +32,31 @@ This action can be used on both [self-hosted](https://docs.github.com/en/actions
 
 ## Examples
 
+### Trigger a load test at a scheduled time via GitHub [schedule events](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule)
+
+```yml
+on:
+  schedule:
+    # run at 05:00 on every Friday
+    cron: '0 5 * * 5'
+jobs:
+  load_test:
+    runs-on: self-hosted
+    name: Start a load test
+    steps:
+      - name: Run test in LoadRunner Cloud
+        uses: MicroFocus/lrc-gh-action@v1
+        id: lrc_run_test
+        env:
+          LRC_CLIENT_ID: ${{secrets.LRC_CLIENT_ID}}
+          LRC_CLIENT_SECRET: ${{secrets.LRC_CLIENT_SECRET}}
+        with:
+          lrc_server: 'https://loadrunner-cloud.saas.microfocus.com'
+          lrc_tenant: '123456789'
+          lrc_project: '1'
+          lrc_test_id: '123'
+```
+
 ### Start a load test via manually triggered workflow and upload results to GitHub [Artifacts](https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts)
 
 ```yml
@@ -87,12 +112,12 @@ jobs:
           path: ${{ github.event.inputs.lrc_output_dir }}
 ```
 
-### Build, deploy and start a load test once a new release is published or edited
+### Build, deploy and start a load test once a new release is published
 
 ```yml
 on:
   release:
-    types: [published, edited]
+    types: [published]
 
 jobs:
   build:
@@ -129,27 +154,4 @@ jobs:
           lrc_test_id: '123'
 ```
 
-### Trigger a load test at a scheduled time via GitHub [schedule events](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule)
 
-```yml
-on:
-  schedule:
-    # run at 05:00 on every Friday
-    cron: '0 5 * * 5'
-jobs:
-  load_test:
-    runs-on: self-hosted
-    name: Start a load test
-    steps:
-      - name: Run test in LoadRunner Cloud
-        uses: MicroFocus/lrc-gh-action@v1
-        id: lrc_run_test
-        env:
-          LRC_CLIENT_ID: ${{secrets.LRC_CLIENT_ID}}
-          LRC_CLIENT_SECRET: ${{secrets.LRC_CLIENT_SECRET}}
-        with:
-          lrc_server: 'https://loadrunner-cloud.saas.microfocus.com'
-          lrc_tenant: '123456789'
-          lrc_project: '1'
-          lrc_test_id: '123'
-```
