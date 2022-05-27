@@ -76,7 +76,7 @@ jobs:
           lrc_test_id: ${{ github.event.inputs.lrc_test_id }}
           lrc_output_dir: ${{ github.event.inputs.lrc_output_dir }}
           lrc_report_types: ${{ github.event.inputs.lrc_report_types }}
-      - name: Print the test run ID
+      - name: Print test run ID
         run: echo "LRC Run ID is ${{ steps.lrc_run_test.outputs.lrc_run_id }}"
       - name: Upload results
         uses: actions/upload-artifact@v3
