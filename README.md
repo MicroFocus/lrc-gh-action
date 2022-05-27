@@ -1,14 +1,14 @@
 # GitHub Action for LoadRunner Cloud
 
-Use this action to run a [LoadRunner Cloud test](https://admhelp.microfocus.com/lrc/en/Latest/Content/Storm/t_run_load_test.htm) and generate artifacts.
+Use this action to run a [LoadRunner Cloud test](https://admhelp.microfocus.com/lrc/en/Latest/Content/Storm/t_run_load_test.htm) and collect results.
 
 This action can be used on both [self-hosted](https://docs.github.com/en/actions/hosting-your-own-runners) and [GitHub-hosted](https://docs.github.com/en/actions/using-github-hosted-runners) runners.
 
 ## Prerequisites
 
-1. Get your client id and secret key. Refer to [LoadRunner Cloud - API access keys](https://admhelp.microfocus.com/lrc/en/Latest/Content/Storm/Admin-APIAccess.htm)
-2. Configure the client id and secret key in [GitHub Secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository).   
-   For example: `LRC_CLIENT_ID` and `LRC_CLIENT_SECRET`. Those two secret names are used in below examples.
+1. Get your client id and secret key in LoadRunner Cloud. Refer to [API access keys](https://admhelp.microfocus.com/lrc/en/Latest/Content/Storm/Admin-APIAccess.htm)
+2. Store the client id and secret key in GitHub [Secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository).   
+   For example: `LRC_CLIENT_ID` and `LRC_CLIENT_SECRET`. These two secret names are used in below examples.
 3. Prepare a load test in LoadRunner Cloud.
 
 ## Action Inputs
@@ -20,7 +20,7 @@ This action can be used on both [self-hosted](https://docs.github.com/en/actions
 | **lrc_project**      | Project ID, default: 1                                                                                                                                          |
 | **lrc_test_id**      | Test ID                                                                                                                                                         |
 | **lrc_output_dir**   | Where to save the report files. <br/>This path can be used in following steps such as "Upload artifacts"                                                        |
-| **lrc_report_types** | Specify target report types. For example: `pdf, docx, csv`.  <br/>There are 3 supported report types: pdf, docx, csv. Leave it blank if you don't need reports. |
+| **lrc_report_types** | Specify target report types. For example: `pdf, docx, csv`.  <br/>There are 3 supported report types: pdf, docx, csv. Leave it empty if you don't need reports. |
 
 ## Action Outputs
 
