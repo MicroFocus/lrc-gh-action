@@ -2,8 +2,8 @@
 
 # GitHub Action for LoadRunner Cloud
 
-Use this action to run a [LoadRunner Cloud test](https://admhelp.microfocus.com/lrc/en/Latest/Content/Storm/t_run_load_test.htm) and collect reports.  
-This action can be used on both [self-hosted](https://docs.github.com/en/actions/hosting-your-own-runners) and [GitHub-hosted](https://docs.github.com/en/actions/using-github-hosted-runners) runners.
+Use this action to run a load test in [LoadRunner Cloud](https://admhelp.microfocus.com/lrc/en/Latest/Content/Storm/c_Getting_started.htm) and collect reports.  
+The action can be used on both [self-hosted](https://docs.github.com/en/actions/hosting-your-own-runners) and [GitHub-hosted](https://docs.github.com/en/actions/using-github-hosted-runners) runners.
 
 For security practices about using GitHub Actions, refer to GitHub's [Security hardening for GitHub Actions](https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions).  
 If you use self-hosted runners, refer to the [Hardening for self-hosted runners](https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#hardening-for-self-hosted-runners).
