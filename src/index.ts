@@ -19,13 +19,27 @@ import lrcUtils from 'lrcrunner/lib/utils';
 import { ActionInputFromGithub } from './ActionInputFromGithub';
 
 async function parseInput(): Promise<ActionInputFromGithub> {
-    const serverURLStr = core.getInput(ActionInputFromGithub.GITHUB_INPUT_NAME.SERVER_URL);
-    const tenantId = core.getInput(ActionInputFromGithub.GITHUB_INPUT_NAME.TENANT);
-    const projectIdStr = core.getInput(ActionInputFromGithub.GITHUB_INPUT_NAME.PROJECT);
-    const testIdStr = core.getInput(ActionInputFromGithub.GITHUB_INPUT_NAME.TEST_ID);
-    const configFile = core.getInput(ActionInputFromGithub.GITHUB_INPUT_NAME.CONFIG_FILE);
-    const outputDir = core.getInput(ActionInputFromGithub.GITHUB_INPUT_NAME.OUTPUT_DIR);
-    const reportTypesStr = core.getInput(ActionInputFromGithub.GITHUB_INPUT_NAME.REPORT_TYPES) || '';
+    const serverURLStr = core.getInput(
+        ActionInputFromGithub.GITHUB_INPUT_NAME.SERVER_URL
+    );
+    const tenantId = core.getInput(
+        ActionInputFromGithub.GITHUB_INPUT_NAME.TENANT
+    );
+    const projectIdStr = core.getInput(
+        ActionInputFromGithub.GITHUB_INPUT_NAME.PROJECT
+    );
+    const testIdStr = core.getInput(
+        ActionInputFromGithub.GITHUB_INPUT_NAME.TEST_ID
+    );
+    const configFile = core.getInput(
+        ActionInputFromGithub.GITHUB_INPUT_NAME.CONFIG_FILE
+    );
+    const outputDir = core.getInput(
+        ActionInputFromGithub.GITHUB_INPUT_NAME.OUTPUT_DIR
+    );
+    const reportTypesStr =
+        core.getInput(ActionInputFromGithub.GITHUB_INPUT_NAME.REPORT_TYPES) ||
+        '';
 
     const result = await ActionInputFromGithub.readGithubInput(
         serverURLStr,
@@ -34,7 +48,7 @@ async function parseInput(): Promise<ActionInputFromGithub> {
         testIdStr,
         outputDir,
         reportTypesStr,
-        configFile,
+        configFile
     );
 
     if (result.input === null || (result.errMsgs && result.errMsgs.length)) {
@@ -99,13 +113,12 @@ async function run() {
 
     const { detailedStatus } = await client.getTestRunStatus(currRun.runId);
     if (detailedStatus !== 'PASSED') {
-        core.setFailed(`test run ended with ${detailedStatus} status.`)
+        core.setFailed(`test run ended with ${detailedStatus} status.`);
     }
 
     return currRun;
 }
 
-run()
-    .catch((err) => {
-        core.setFailed((err as Error).message);
-    });
+run().catch((err) => {
+    core.setFailed((err as Error).message);
+});

@@ -52,7 +52,7 @@ export class ActionInputFromGithub {
         TEST_ID: 'lrc_test_id',
         CONFIG_FILE: 'lrc_config_file',
         OUTPUT_DIR: 'lrc_output_dir',
-        REPORT_TYPES: 'lrc_report_types'
+        REPORT_TYPES: 'lrc_report_types',
     };
 
     public static async readGithubInput(
@@ -62,7 +62,7 @@ export class ActionInputFromGithub {
         testIdStr: string,
         outputDir: string,
         reportTypesStr: string,
-        configFile: string,
+        configFile: string
     ): Promise<{
         input: ActionInputFromGithub | null;
         errMsgs: string[];
@@ -92,16 +92,22 @@ export class ActionInputFromGithub {
                 await fs.mkdirp(outputDir);
             }
         } catch (err) {
-            errMsgs.push(`invalid output dir ${outputDir}, ${(err as Error).message}`);
+            errMsgs.push(
+                `invalid output dir ${outputDir}, ${(err as Error).message}`
+            );
         }
 
         let reportTypes: string[] = [];
         if (reportTypesStr && reportTypesStr.length) {
             reportTypes = reportTypesStr.split(',').map((x) => x.trim());
             let isValid = true;
-            reportTypes.forEach((t) => { isValid = ['csv', 'pdf', 'docx'].includes(t) && isValid; });
+            reportTypes.forEach((t) => {
+                isValid = ['csv', 'pdf', 'docx'].includes(t) && isValid;
+            });
             if (!isValid) {
-                errMsgs.push('invalid report types, only "csv", "pdf" and "docx" are supported');
+                errMsgs.push(
+                    'invalid report types, only "csv", "pdf" and "docx" are supported'
+                );
             }
         }
 
@@ -120,13 +126,21 @@ export class ActionInputFromGithub {
         if (errMsgs.length) {
             return {
                 input: null,
-                errMsgs
+                errMsgs,
             };
         }
 
         return {
-            input: new ActionInputFromGithub(serverUrl, tenant, projectId, testId, configFile, outputDir, reportTypes),
-            errMsgs: []
+            input: new ActionInputFromGithub(
+                serverUrl,
+                tenant,
+                projectId,
+                testId,
+                configFile,
+                outputDir,
+                reportTypes
+            ),
+            errMsgs: [],
         };
     }
 }
