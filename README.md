@@ -17,20 +17,20 @@ If you use self-hosted runners, refer to the [Hardening for self-hosted runners]
 
 ## Action Inputs
 
-| Input                | Description                                                                                                                                     |
-|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
-| **lrc_server**       | LRC URL, default: https://loadrunner-cloud.saas.microfocus.com                                                                               |
-| **lrc_tenant**       | Tenant ID, for example: 652261341                                                                                                               |
-| **lrc_project**      | Project ID, default: 1                                                                                                                          |
-| **lrc_test_id**      | Test ID                                                                                                                                         |
-| **lrc_output_dir**   | The directory to save results. <br/>The path can be used in "Upload artifacts" step.                                                            |
+| Input                | Description                                                                                                                                             |
+|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **lrc_server**       | LRC URL, default: https://loadrunner-cloud.saas.microfocus.com                                                                                          |
+| **lrc_tenant**       | Tenant ID, for example: 652261341                                                                                                                       |
+| **lrc_project**      | Project ID, default: 1                                                                                                                                  |
+| **lrc_test_id**      | Test ID                                                                                                                                                 |
+| **lrc_output_dir**   | The directory to save results. <br/>The path can be used in "Upload artifacts" step.                                                                    |
 | **lrc_report_types** | Target report types. For example: `pdf, docx, csv`.  <br/>There are 3 supported report types: pdf, docx, csv. Leave it empty if you don't need reports. |
 
 ## Action Outputs
 
-| Output         | Description                                |
-|----------------|--------------------------------------------|
-| **lrc_run_id** | The ID of test run started by this action. |
+| Output                                                                | Description                                |
+|-----------------------------------------------------------------------|--------------------------------------------|
+| **lrc_run_id** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | The ID of test run started by this action. |
 
 ## Examples
 
