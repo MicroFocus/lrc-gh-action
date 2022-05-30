@@ -19,7 +19,7 @@ If you use self-hosted runners, refer to the [Hardening for self-hosted runners]
 
 | Input                | Description                                                                                                                                     |
 |----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
-| **lrc_server**       | Server URL, default: https://loadrunner-cloud.saas.microfocus.com                                                                               |
+| **lrc_server**       | LRC URL, default: https://loadrunner-cloud.saas.microfocus.com                                                                               |
 | **lrc_tenant**       | Tenant ID, for example: 652261341                                                                                                               |
 | **lrc_project**      | Project ID, default: 1                                                                                                                          |
 | **lrc_test_id**      | Test ID                                                                                                                                         |
