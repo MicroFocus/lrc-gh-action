@@ -1,31 +1,31 @@
-name: 'LoadRunner Cloud Github Action - Run Test'
-description: 'Start a test run in LoadRunner Cloud'
+name: 'GitHub Action for LoadRunner Cloud'
+description: 'Run a test in LoadRunner Cloud'
 inputs:
   lrc_server:
-    description: 'Server URL of LoadRunner Cloud'
+    description: 'LRC URL'
     required: true
     default: 'https://loadrunner-cloud.saas.microfocus.com'
   lrc_tenant:
-    description: 'Tenant ID of LoadRunner Cloud'
+    description: 'Tenant ID'
     required: true
   lrc_project:
-    description: 'Project ID of LoadRunner Cloud'
+    description: 'Project ID'
     required: true
     default: '1'
   lrc_test_id:
-    description: 'Test ID of LoadRunner Cloud'
+    description: 'Test ID'
     required: false
   lrc_output_dir:
-    description: 'Path where you want to store the output files, like csv/pdf reports and so on.'
+    description: 'The directory to save results'
     required: false
     default: './'
   lrc_report_types:
-    description: 'What type of reports should the action download, "csv", "pdf" and "docx" are supported. Use "," to separate multiple types.'
+    description: 'Target report types. For example: pdf, docx, csv'
     required: false
     default: ''
 outputs:
   lrc_run_id:
-    description: 'Run ID of LoadRunner Cloud'
+    description: 'The ID of test run started by this action'
 runs:
   using: 'node16'
   main: 'bundle/index.js'

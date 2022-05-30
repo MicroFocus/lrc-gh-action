@@ -66,7 +66,7 @@ function getClient(config: ActionInputFromGithub): LRCClient {
 
 async function run() {
     const input = await parseInput();
-    core.info(`got input from Github ${JSON.stringify(input, null, 4)}`);
+    core.info(`started with parameters: ${JSON.stringify(input, null, 4)}`);
     const client = getClient(input);
     const client_id = process.env.LRC_CLIENT_ID;
     const client_secret = process.env.LRC_CLIENT_SECRET;
@@ -99,7 +99,7 @@ async function run() {
 
     const { detailedStatus } = await client.getTestRunStatus(currRun.runId);
     if (detailedStatus !== 'PASSED') {
-        core.setFailed(`test run ended with ${detailedStatus}.`)
+        core.setFailed(`test run ended with ${detailedStatus} status.`)
     }
 
     return currRun;

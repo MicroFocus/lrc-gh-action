@@ -1,32 +1,33 @@
-on: 
+on:
   workflow_dispatch:
     inputs:
       lrc_server:
-        description: 'Server URL of LoadRunner Cloud'
+        description: 'LRC URL'
         required: true
         default: 'https://loadrunner-cloud.saas.microfocus.com'
       lrc_tenant:
-        description: 'Tenant ID of LoadRunner Cloud'
+        description: 'Tenant ID'
         required: true
       lrc_project:
-        description: 'Project ID of LoadRunner Cloud'
+        description: 'Project ID'
         required: true
+        default: '1'
       lrc_test_id:
-        description: 'Test ID of LoadRunner Cloud'
+        description: 'Test ID'
         required: true
       lrc_output_dir:
-        description: 'Path where you want to store the output files, like csv/pdf reports and so on.'
+        description: 'The directory to save results'
         required: false
         default: './'
       lrc_report_types:
-        description: 'LoadRunner Cloud report file types to download'
+        description: 'Target report types. For example: pdf, docx, csv'
         required: false
         default: ''
 
 jobs:
   hello_world_job:
     runs-on: self-hosted
-    name: A job to say hello
+    name: Start a load test
     steps:
       # To use this repository's private action,
       # you must check out the repository
@@ -46,9 +47,9 @@ jobs:
           lrc_config_file: ${{ github.event.inputs.lrc_config_file }}
           lrc_output_dir: ${{ github.event.inputs.lrc_output_dir }}
           lrc_report_types: ${{ github.event.inputs.lrc_report_types }}
-      - name: Get the output runId
+      - name: Print test run ID
         run: echo "LRC Run ID is ${{ steps.lrc_run_test.outputs.lrc_run_id }}"
-      - name: upload lrc report
+      - name: Upload lrc results
         uses: actions/upload-artifact@v3
         with:
           name: lrc-report-${{ steps.lrc_run_test.outputs.lrc_run_id }}
