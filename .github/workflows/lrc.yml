@@ -1,55 +1,73 @@
+name: LoadRunner Cloud Run Test Workflow
+
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       lrc_server:
         description: 'LRC URL'
         required: true
         default: 'https://loadrunner-cloud.saas.microfocus.com'
+        type: string
       lrc_tenant:
         description: 'Tenant ID'
         required: true
+        type: string
       lrc_project:
         description: 'Project ID'
         required: true
         default: '1'
+        type: string
       lrc_test_id:
         description: 'Test ID'
         required: true
+        type: string
       lrc_output_dir:
         description: 'The directory to save results'
         required: false
-        default: './'
+        default: './results'
+        type: string
       lrc_report_types:
         description: 'Target report types. For example: pdf, docx, csv'
         required: false
         default: ''
+        type: string
+    secrets:
+      LRC_CLIENT_ID:
+        description: 'Client id of LoadRunner Cloud'
+        required: true
+      LRC_CLIENT_SECRET:
+        description: 'Client secret of LoadRunner Cloud'
+        required: true
+    outputs:
+      lrc_run_id:
+        description: Load test run id
+        value: ${{ jobs.run_test.outputs.lrc_run_id }}
 
 jobs:
-  hello_world_job:
-    runs-on: self-hosted
+  run_test:
     name: Start a load test
+    runs-on: ubuntu-latest
+    outputs:
+      lrc_run_id: ${{ steps.lrc_run_test.outputs.lrc_run_id }}
     steps:
-      # To use this repository's private action,
-      # you must check out the repository
-      - name: Checkout
-        uses: actions/checkout@v2
       - name: Run LoadRunner test
-        uses: ./ # Uses an action in the root directory
+        uses: MicroFocus/lrc-gh-action@v0.0.4
         id: lrc_run_test
         env:
           LRC_CLIENT_ID: ${{secrets.LRC_CLIENT_ID}}
           LRC_CLIENT_SECRET: ${{secrets.LRC_CLIENT_SECRET}}
         with:
-          lrc_server: ${{ github.event.inputs.lrc_server }}
-          lrc_tenant: ${{ github.event.inputs.lrc_tenant }}
-          lrc_project: ${{ github.event.inputs.lrc_project }}
-          lrc_test_id: ${{ github.event.inputs.lrc_test_id }}
-          lrc_output_dir: ${{ github.event.inputs.lrc_output_dir }}
-          lrc_report_types: ${{ github.event.inputs.lrc_report_types }}
+          lrc_server: ${{ inputs.lrc_server }}
+          lrc_tenant: ${{ inputs.lrc_tenant }}
+          lrc_project: ${{ inputs.lrc_project }}
+          lrc_test_id: ${{ inputs.lrc_test_id }}
+          lrc_output_dir: ${{ inputs.lrc_output_dir }}
+          lrc_report_types: ${{ inputs.lrc_report_types }}
       - name: Print test run ID
         run: echo "LRC Run ID is ${{ steps.lrc_run_test.outputs.lrc_run_id }}"
       - name: Upload lrc results
         uses: actions/upload-artifact@v3
         with:
           name: lrc-report-${{ steps.lrc_run_test.outputs.lrc_run_id }}
-          path: ${{ github.event.inputs.lrc_output_dir }}
+          path: ${{ inputs.lrc_output_dir }}
+    
