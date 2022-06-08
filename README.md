@@ -155,3 +155,32 @@ jobs:
           lrc_project: '1'
           lrc_test_id: '123'
 ```
+
+### Use [callable workflow](https://docs.github.com/en/actions/using-workflows/reusing-workflows)
+
+We provides a callable workflow in `.github/workflows/lrc.yml`, you can easily reuse it as a job within your own workflow:
+
+```yml
+on:
+  workflow_dispatch:
+
+jobs:
+  run_test:
+    runs-on: ubuntu-latest
+    # replace the commit hash with latest one
+    uses: MicroFocus/lrc-gh-action/.github/workflows/lrc.yml@8e3c525cf1b2010005c5022c663f1682dcaa5c61
+      with:
+        lrc_server: 'https://loadrunner-cloud.saas.microfocus.com'
+        lrc_tenant: 'TENANT ID'
+        lrc_project: 'PROJECT ID'
+        lrc_test_id: 'TEST ID'
+      secrets:
+        LRC_CLIENT_ID: ${{ secrets.LRC_CLIENT_ID }}
+        LRC_CLIENT_SECRET: ${{ secrets.LRC_CLIENT_SECRET }}
+  print_run_id:
+    if: ${{ always }}
+    runs-on: ubuntu-latest
+    needs: run_test
+    steps:
+      - run: echo "LRC Run ID is ${{ needs.run_test.outputs.lrc_run_id }}"
+```
