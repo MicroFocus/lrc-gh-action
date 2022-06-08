@@ -50,7 +50,7 @@ jobs:
     outputs:
       lrc_run_id: ${{ steps.lrc_run_test.outputs.lrc_run_id }}
     steps:
-      - name: Run LoadRunner test
+      - name: Run test in LoadRunner Cloud
         uses: MicroFocus/lrc-gh-action@v0.0.4
         id: lrc_run_test
         env:
@@ -66,10 +66,9 @@ jobs:
       - name: Print test run ID
         if: ${{ always }}
         run: echo "LRC Run ID is ${{ steps.lrc_run_test.outputs.lrc_run_id }}"
-      - name: Upload lrc results
+      - name: Upload LRC results
         if: ${{ always }}
         uses: actions/upload-artifact@v3
         with:
           name: lrc-report-${{ steps.lrc_run_test.outputs.lrc_run_id }}
           path: ${{ inputs.lrc_output_dir }}
-    

@@ -107,7 +107,7 @@ jobs:
           lrc_report_types: ${{ github.event.inputs.lrc_report_types }}
       - name: Print test run ID
         run: echo "LRC Run ID is ${{ steps.lrc_run_test.outputs.lrc_run_id }}"
-      - name: Upload results
+      - name: Upload LRC results
         uses: actions/upload-artifact@v3
         with:
           name: lrc-report-${{ steps.lrc_run_test.outputs.lrc_run_id }}
@@ -156,9 +156,7 @@ jobs:
           lrc_test_id: '123'
 ```
 
-### Use [callable workflow](https://docs.github.com/en/actions/using-workflows/reusing-workflows)
-
-We provides a callable workflow in `.github/workflows/lrc.yml`, you can easily reuse it as a job within your own workflow:
+### Use [reusable workflow](https://docs.github.com/en/actions/using-workflows/reusing-workflows) provided in `.github/workflows/lrc.yml`
 
 ```yml
 on:
@@ -171,9 +169,9 @@ jobs:
     uses: MicroFocus/lrc-gh-action/.github/workflows/lrc.yml@8e3c525cf1b2010005c5022c663f1682dcaa5c61
       with:
         lrc_server: 'https://loadrunner-cloud.saas.microfocus.com'
-        lrc_tenant: 'TENANT ID'
-        lrc_project: 'PROJECT ID'
-        lrc_test_id: 'TEST ID'
+        lrc_tenant: 'Tenant ID'
+        lrc_project: 'Project ID'
+        lrc_test_id: 'Test ID'
       secrets:
         LRC_CLIENT_ID: ${{ secrets.LRC_CLIENT_ID }}
         LRC_CLIENT_SECRET: ${{ secrets.LRC_CLIENT_SECRET }}
