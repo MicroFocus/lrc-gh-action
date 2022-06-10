@@ -51,7 +51,7 @@ jobs:
       lrc_run_id: ${{ steps.lrc_run_test.outputs.lrc_run_id }}
     steps:
       - name: Run test in LoadRunner Cloud
-        uses: MicroFocus/lrc-gh-action@v0.0.4
+        uses: MicroFocus/lrc-gh-action@v1
         id: lrc_run_test
         env:
           LRC_CLIENT_ID: ${{secrets.LRC_CLIENT_ID}}

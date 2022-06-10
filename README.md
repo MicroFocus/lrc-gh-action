@@ -165,13 +165,12 @@ on:
 jobs:
   run_test:
     runs-on: ubuntu-latest
-    # replace the commit hash with latest one
-    uses: MicroFocus/lrc-gh-action/.github/workflows/lrc.yml@8e3c525cf1b2010005c5022c663f1682dcaa5c61
+    uses: MicroFocus/lrc-gh-action/.github/workflows/lrc.yml@v1
       with:
         lrc_server: 'https://loadrunner-cloud.saas.microfocus.com'
-        lrc_tenant: 'Tenant ID'
-        lrc_project: 'Project ID'
-        lrc_test_id: 'Test ID'
+        lrc_tenant: '123456789'
+        lrc_project: '1'
+        lrc_test_id: '123'
       secrets:
         LRC_CLIENT_ID: ${{ secrets.LRC_CLIENT_ID }}
         LRC_CLIENT_SECRET: ${{ secrets.LRC_CLIENT_SECRET }}
