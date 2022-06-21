@@ -64,10 +64,10 @@ jobs:
           lrc_output_dir: ${{ inputs.lrc_output_dir }}
           lrc_report_types: ${{ inputs.lrc_report_types }}
       - name: Print test run ID
-        if: ${{ always }}
+        if: ${{ always() }}
         run: echo "LRC Run ID is ${{ steps.lrc_run_test.outputs.lrc_run_id }}"
       - name: Upload LRC results
-        if: ${{ always }}
+        if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
           name: lrc-report-${{ steps.lrc_run_test.outputs.lrc_run_id }}
