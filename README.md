@@ -175,7 +175,7 @@ jobs:
       LRC_CLIENT_ID: ${{ secrets.LRC_CLIENT_ID }}
       LRC_CLIENT_SECRET: ${{ secrets.LRC_CLIENT_SECRET }}
   print_run_id:
-    if: ${{ always }}
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     needs: run_test
     steps:
