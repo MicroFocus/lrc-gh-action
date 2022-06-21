@@ -40,7 +40,7 @@ If you use self-hosted runners, refer to the [Hardening for self-hosted runners]
 on:
   schedule:
     # run at 05:00 on every Friday
-    cron: '0 5 * * 5'
+    - cron: '0 5 * * 5'
 jobs:
   load_test:
     runs-on: self-hosted
@@ -164,16 +164,15 @@ on:
 
 jobs:
   run_test:
-    runs-on: ubuntu-latest
     uses: MicroFocus/lrc-gh-action/.github/workflows/lrc.yml@v1
-      with:
-        lrc_server: 'https://loadrunner-cloud.saas.microfocus.com'
-        lrc_tenant: '123456789'
-        lrc_project: '1'
-        lrc_test_id: '123'
-      secrets:
-        LRC_CLIENT_ID: ${{ secrets.LRC_CLIENT_ID }}
-        LRC_CLIENT_SECRET: ${{ secrets.LRC_CLIENT_SECRET }}
+    with:
+      lrc_server: 'https://loadrunner-cloud.saas.microfocus.com'
+      lrc_tenant: '123456789'
+      lrc_project: '1'
+      lrc_test_id: '123'
+    secrets:
+      LRC_CLIENT_ID: ${{ secrets.LRC_CLIENT_ID }}
+      LRC_CLIENT_SECRET: ${{ secrets.LRC_CLIENT_SECRET }}
   print_run_id:
     if: ${{ always }}
     runs-on: ubuntu-latest
