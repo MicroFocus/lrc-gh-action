@@ -164,7 +164,8 @@ on:
 
 jobs:
   run_test:
-    uses: MicroFocus/lrc-gh-action/.github/workflows/lrc.yml@v1
+    # replace the commit hash with latest
+    uses: MicroFocus/lrc-gh-action/.github/workflows/lrc.yml@4733debb55362aa3d57115e566503481ddcf9a03
     with:
       lrc_server: 'https://loadrunner-cloud.saas.microfocus.com'
       lrc_tenant: '123456789'
