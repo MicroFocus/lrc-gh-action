@@ -30,7 +30,7 @@
         "@actions/core": "1.8.2",
         "@actions/github": "5.0.3",
         "fs-extra": "10.1.0",
-        "lrcrunner": "git+https://github.com/MicroFocus/lrcrunner.git#v1.0.6",
+        "lrcrunner": "git+https://github.com/MicroFocus/lrcrunner.git#v1.0.9",
         "tslib": "2.4.0"
     },
     "devDependencies": {
