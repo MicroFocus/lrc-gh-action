@@ -18,6 +18,8 @@ import LRCClient from 'lrcrunner/lib/Client';
 import lrcUtils from 'lrcrunner/lib/utils';
 import { ActionInputFromGithub } from './ActionInputFromGithub';
 
+const INITIATOR = 'gh-action';
+
 async function parseInput(): Promise<ActionInputFromGithub> {
     const serverURLStr = core.getInput(
         ActionInputFromGithub.GITHUB_INPUT_NAME.SERVER_URL
@@ -91,7 +93,7 @@ async function run() {
     core.info(`running test: "${test.name}" ...`);
 
     // run test
-    const currRun = await client.runTest(input.projectId, input.testId);
+    const currRun = await client.runTest(input.projectId, input.testId, INITIATOR);
     core.info(
         `run id: ${currRun.runId}, dashboard url: ${lrcUtils.getDashboardUrl(
             new URL(input.serverUrl),
