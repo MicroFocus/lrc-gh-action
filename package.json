@@ -1,6 +1,6 @@
 {
     "name": "lrc-gh-action",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "GitHub Action for LoadRunner Cloud",
     "main": "bundle/index.js",
     "scripts": {
