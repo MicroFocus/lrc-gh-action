@@ -1,8 +1,8 @@
-name: 'GitHub Action for LoadRunner Cloud'
+name: 'LoadRunner Cloud'
 description: 'Run a test in LoadRunner Cloud'
 author: 'Micro Focus'
 branding:
-  icon: 'arrow-right'
+  icon: 'cloud-lightningt'
   color: 'blue'
 inputs:
   lrc_server:
