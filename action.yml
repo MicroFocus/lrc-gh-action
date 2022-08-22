@@ -1,8 +1,8 @@
 name: 'LoadRunner Cloud'
-description: 'Run a test in LoadRunner Cloud'
+description: 'Run test in LoadRunner Cloud'
 author: 'Micro Focus'
 branding:
-  icon: 'cloud-lightningt'
+  icon: 'cloud-lightning'
   color: 'blue'
 inputs:
   lrc_server:
