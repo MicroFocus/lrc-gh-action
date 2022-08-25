@@ -13,19 +13,19 @@ If you use self-hosted runners, refer to the [Hardening for self-hosted runners]
 
 1. Get your client id and secret key in LoadRunner Cloud. Refer to [API access keys](https://admhelp.microfocus.com/lrc/en/Latest/Content/Storm/Admin-APIAccess.htm)
 2. Store the client id and secret key in GitHub [Secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository).   
-   For example: `LRC_CLIENT_ID` and `LRC_CLIENT_SECRET`. These two secret names are used in below examples.
+   For example: `LRC_CLIENT_ID` and `LRC_CLIENT_SECRET`. These two secret names are used in following examples.
 3. Prepare a load test in LoadRunner Cloud.
 
 ## Action Inputs
 
-| Input                | Description                                                                                                                                             |
-|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **lrc_server**       | LRC URL, default: https://loadrunner-cloud.saas.microfocus.com                                                                                          |
-| **lrc_tenant**       | Tenant ID, for example: 652261341                                                                                                                       |
-| **lrc_project**      | Project ID, default: 1                                                                                                                                  |
-| **lrc_test_id**      | Test ID                                                                                                                                                 |
-| **lrc_output_dir**   | The directory to save results. <br/>The path can be used in "Upload artifacts" step.                                                                    |
-| **lrc_report_types** | Target report types. For example: `pdf, docx, csv`.  <br/>There are 3 supported report types: pdf, docx, csv. Leave it empty if you don't need reports. |
+| Input                | Description                                                                                                                                                      |
+|----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **lrc_server**       | LRC URL, default: https://loadrunner-cloud.saas.microfocus.com                                                                                                   |
+| **lrc_tenant**       | Tenant ID, for example: 652261341                                                                                                                                |
+| **lrc_project**      | Project ID, default: 1                                                                                                                                           |
+| **lrc_test_id**      | Test ID                                                                                                                                                          |
+| **lrc_output_dir**   | The directory in which to save results. <br/>The path can be used in the "Upload artifacts" step.                                                                |
+| **lrc_report_types** | Target report types. For example: `pdf, docx, csv`.  <br/>There are 3 supported report types: pdf, docx, csv. Leave this field empty if you do not need reports. |
 
 ## Action Outputs
 
@@ -60,7 +60,7 @@ jobs:
           lrc_test_id: '123'
 ```
 
-### Start a load test via manually triggered workflow and upload results to GitHub [Artifacts](https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts)
+### Start a load test via a manually triggered workflow and upload the results to GitHub [Artifacts](https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts)
 
 ```yml
 on: 
