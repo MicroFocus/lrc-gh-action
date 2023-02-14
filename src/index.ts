@@ -84,6 +84,7 @@ async function run() {
     const input = await parseInput();
     core.info(`started with parameters: ${JSON.stringify(input, null, 4)}`);
     const client = getClient(input);
+    await client.init();
     const client_id = process.env.LRC_CLIENT_ID;
     const client_secret = process.env.LRC_CLIENT_SECRET;
 
