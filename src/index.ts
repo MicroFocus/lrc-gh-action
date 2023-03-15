@@ -13,6 +13,7 @@
 import process from 'process';
 
 import * as core from '@actions/core';
+import got from 'got';
 
 import LRCClient from 'lrcrunner/lib/Client';
 import lrcUtils from 'lrcrunner/lib/utils';
@@ -84,7 +85,7 @@ async function run() {
     const input = await parseInput();
     core.info(`started with parameters: ${JSON.stringify(input, null, 4)}`);
     const client = getClient(input);
-    await client.init();
+    await client.init(got);
     const client_id = process.env.LRC_CLIENT_ID;
     const client_secret = process.env.LRC_CLIENT_SECRET;
 
