@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: '16.x'
       - name: npm build
-        run: npm install && npm run build
+        run: npm install --omit=dev && npm run build
       - uses: JasonEtco/build-and-tag-action@v2
         env:
           GITHUB_TOKEN: ${{ github.token }}
