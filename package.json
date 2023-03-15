@@ -6,6 +6,7 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "ncc build ./src/index.ts --license licenses.txt -o bundle",
+        "buildNpx": "npm i @vercel/ncc && npx ncc build ./src/index.ts --license licenses.txt -o bundle",
         "eslint": "npx eslint ./src/*.ts"
     },
     "repository": {
