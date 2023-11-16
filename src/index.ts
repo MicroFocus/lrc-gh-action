@@ -115,9 +115,26 @@ async function run() {
         input.outputDir
     );
 
-    const { detailedStatus } = await client.getTestRunStatus(currRun.runId);
-    if (detailedStatus !== 'PASSED') {
-        core.setFailed(`test run ended with ${detailedStatus} status.`);
+    const { uiStatus, startTime, endTime } = await client.getTestRun(currRun.runId);
+
+    const runData = {
+        urlObject: new URL(input.serverUrl),
+        tenant: input.tenantId,
+        projectId: input.projectId,
+        runId: currRun.runId,
+        testId: input.testId,
+        testName: test.name,
+        artifacts_folder: input.outputDir,
+        isLocalTesting: false,
+        uiStatus,
+        startTime,
+        endTime
+    };
+
+    await client.generateJUnitXmlReport(runData);
+
+    if (uiStatus !== 'PASSED') {
+        core.setFailed(`test run ended with ${uiStatus} status.`);
     }
 
     return currRun;
