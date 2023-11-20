@@ -25,7 +25,7 @@ If you use self-hosted runners, refer to the [Hardening for self-hosted runners]
 | **lrc_project**      | Project ID, default: 1                                                                                                                                           |
 | **lrc_test_id**      | Test ID                                                                                                                                                          |
 | **lrc_output_dir**   | The directory in which to save results. <br/>The path can be used in the "Upload artifacts" step.                                                                |
-| **lrc_report_types** | Target report types. For example: `pdf, docx, csv`.  <br/>There are 3 supported report types: pdf, docx, csv. Leave this field empty if you do not need reports. |
+| **lrc_report_types** | Target report types. For example: `pdf, docx, csv`.  <br/>There are 3 supported report types: pdf, docx, csv. Leave this field empty if you do not need reports. <br/><br/> Note: when test run is completed, a JUnit xml file will be generated in the results directory. |
 
 ## Action Outputs
 
