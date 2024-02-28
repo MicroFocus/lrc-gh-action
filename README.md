@@ -1,4 +1,4 @@
-[![CodeQL](https://github.com/MicroFocus/lrc-gh-action/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/MicroFocus/lrc-gh-action/actions/workflows/codeql-analysis.yml)
+[![CodeQL](https://github.com/MicroFocus/lrc-gh-action/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/MicroFocus/lrc-gh-action/actions/workflows/github-code-scanning/codeql)
 [![Release](https://github.com/MicroFocus/lrc-gh-action/actions/workflows/release.yml/badge.svg)](https://github.com/MicroFocus/lrc-gh-action/actions/workflows/release.yml)
 
 # GitHub Action for LoadRunner Cloud
