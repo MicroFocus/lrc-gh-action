@@ -1,10 +1,9 @@
 on:
   workflow_dispatch:
     inputs:
-      lrc_server:
-        description: 'LRC URL'
+      lrx_url:
+        description: 'LRX URL (used to authenticate and to discover the LRC URL)'
         required: true
-        default: 'https://loadrunner-cloud.saas.microfocus.com'
       lrc_tenant:
         description: 'Tenant ID'
         required: true
@@ -40,7 +39,7 @@ jobs:
           LRC_CLIENT_ID: ${{secrets.LRC_CLIENT_ID}}
           LRC_CLIENT_SECRET: ${{secrets.LRC_CLIENT_SECRET}}
         with:
-          lrc_server: ${{ github.event.inputs.lrc_server }}
+          lrx_url: ${{ github.event.inputs.lrx_url }}
           lrc_tenant: ${{ github.event.inputs.lrc_tenant }}
           lrc_project: ${{ github.event.inputs.lrc_project }}
           lrc_test_id: ${{ github.event.inputs.lrc_test_id }}

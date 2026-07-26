@@ -22,8 +22,8 @@ import { ActionInputFromGithub } from './ActionInputFromGithub';
 const INITIATOR = 'gh-action';
 
 async function parseInput(): Promise<ActionInputFromGithub> {
-    const serverURLStr = core.getInput(
-        ActionInputFromGithub.GITHUB_INPUT_NAME.SERVER_URL
+    const lrxUrlStr = core.getInput(
+        ActionInputFromGithub.GITHUB_INPUT_NAME.LRX_URL
     );
     const tenantId = core.getInput(
         ActionInputFromGithub.GITHUB_INPUT_NAME.TENANT
@@ -45,7 +45,7 @@ async function parseInput(): Promise<ActionInputFromGithub> {
         '';
 
     const result = await ActionInputFromGithub.readGithubInput(
-        serverURLStr,
+        lrxUrlStr,
         tenantId,
         projectIdStr,
         testIdStr,
@@ -73,7 +73,7 @@ const logger = {
 function getClient(config: ActionInputFromGithub): LRCClient {
     const client = new LRCClient(
         config.tenantId,
-        config.serverUrl,
+        config.lrxUrl,
         process.env.http_proxy,
         logger
     );
@@ -90,6 +90,13 @@ async function run() {
     const client_secret = process.env.LRC_CLIENT_SECRET;
 
     await client.authClient({ client_id, client_secret });
+
+    // `input.lrxUrl` is the LRX URL used only for authentication. The real
+    // LRC URL is discovered from LRX during authClient() and exposed as client.lrcUrl.
+    // Use it for the dashboard link and the JUnit report.
+    const lrcUrlObject: URL = client.lrcUrl;
+    core.info(`LRC url: ${lrcUrlObject.href}`);
+
     core.info(`test id: ${input.testId}`);
     const test = await client.getTest(input.projectId, input.testId);
     core.info(`running test: "${test.name}" ...`);
@@ -98,7 +105,7 @@ async function run() {
     const currRun = await client.runTest(input.projectId, input.testId, INITIATOR);
     core.info(
         `run id: ${currRun.runId}, dashboard url: ${lrcUtils.getDashboardUrl(
-            new URL(input.serverUrl),
+            lrcUrlObject,
             input.tenantId,
             input.projectId,
             currRun.runId,
@@ -118,7 +125,7 @@ async function run() {
     const { uiStatus, startTime, endTime } = await client.getTestRun(currRun.runId);
 
     const runData = {
-        urlObject: new URL(input.serverUrl),
+        urlObject: lrcUrlObject,
         tenant: input.tenantId,
         projectId: input.projectId,
         runId: currRun.runId,

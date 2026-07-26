@@ -5,10 +5,9 @@ branding:
   icon: 'cloud-lightning'
   color: 'blue'
 inputs:
-  lrc_server:
-    description: 'LRC URL'
+  lrx_url:
+    description: 'LRX URL (used to authenticate and to discover the LRC URL)'
     required: true
-    default: 'https://loadrunner-cloud.saas.microfocus.com'
   lrc_tenant:
     description: 'Tenant ID'
     required: true

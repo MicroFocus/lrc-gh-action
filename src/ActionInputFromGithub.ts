@@ -13,7 +13,7 @@
 import fs from 'fs-extra';
 
 export class ActionInputFromGithub {
-    serverUrl: string;
+    lrxUrl: string;
 
     tenantId: string;
 
@@ -28,7 +28,7 @@ export class ActionInputFromGithub {
     reportTypes: string[];
 
     private constructor(
-        serverUrl: string,
+        lrxUrl: string,
         tenantId: string,
         projectId: number,
         testId: number,
@@ -36,7 +36,7 @@ export class ActionInputFromGithub {
         outputDir: string,
         reportTypes: string[]
     ) {
-        this.serverUrl = serverUrl;
+        this.lrxUrl = lrxUrl;
         this.tenantId = tenantId;
         this.projectId = projectId;
         this.testId = testId;
@@ -46,7 +46,7 @@ export class ActionInputFromGithub {
     }
 
     public static readonly GITHUB_INPUT_NAME = {
-        SERVER_URL: 'lrc_server',
+        LRX_URL: 'lrx_url',
         TENANT: 'lrc_tenant',
         PROJECT: 'lrc_project',
         TEST_ID: 'lrc_test_id',
@@ -56,7 +56,7 @@ export class ActionInputFromGithub {
     };
 
     public static async readGithubInput(
-        serverUrlStr: string,
+        lrxUrlStr: string,
         tenant: string,
         projectIdStr: string,
         testIdStr: string,
@@ -68,12 +68,12 @@ export class ActionInputFromGithub {
         errMsgs: string[];
     }> {
         const errMsgs: string[] = [];
-        let serverUrl = '';
+        let lrxUrl = '';
         try {
-            const urlObj = new URL(serverUrlStr);
-            serverUrl = urlObj.toString();
+            const urlObj = new URL(lrxUrlStr);
+            lrxUrl = urlObj.toString();
         } catch (err) {
-            errMsgs.push('invalid server url');
+            errMsgs.push('invalid LRX url');
         }
 
         const projectId = Number(projectIdStr);
@@ -132,7 +132,7 @@ export class ActionInputFromGithub {
 
         return {
             input: new ActionInputFromGithub(
-                serverUrl,
+                lrxUrl,
                 tenant,
                 projectId,
                 testId,

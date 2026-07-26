@@ -20,7 +20,7 @@ If you use self-hosted runners, refer to the [Hardening for self-hosted runners]
 
 | Input                | Description                                                                                                                                                      |
 |----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **lrc_server**       | LRC URL, default: https://loadrunner-cloud.saas.microfocus.com                                                                                                   |
+| **lrx_url**          | LRX URL (used to authenticate and to discover the LRC URL). For example: https://platform-ams.loadrunner.saas.microfocus.com                                    |
 | **lrc_tenant**       | Tenant ID, for example: 652261341                                                                                                                                |
 | **lrc_project**      | Project ID, default: 1                                                                                                                                           |
 | **lrc_test_id**      | Test ID                                                                                                                                                          |
@@ -54,7 +54,7 @@ jobs:
           LRC_CLIENT_ID: ${{secrets.LRC_CLIENT_ID}}
           LRC_CLIENT_SECRET: ${{secrets.LRC_CLIENT_SECRET}}
         with:
-          lrc_server: 'https://loadrunner-cloud.saas.microfocus.com'
+          lrx_url: 'https://platform-ams.loadrunner.saas.microfocus.com'
           lrc_tenant: '123456789'
           lrc_project: '1'
           lrc_test_id: '123'
@@ -66,10 +66,9 @@ jobs:
 on: 
   workflow_dispatch:
     inputs:
-      lrc_server:
-        description: 'LRC URL'
+      lrx_url:
+        description: 'LRX URL'
         required: true
-        default: 'https://loadrunner-cloud.saas.microfocus.com'
       lrc_tenant:
         description: 'Tenant ID'
         required: true
@@ -100,7 +99,7 @@ jobs:
           LRC_CLIENT_ID: ${{secrets.LRC_CLIENT_ID}}
           LRC_CLIENT_SECRET: ${{secrets.LRC_CLIENT_SECRET}}
         with:
-          lrc_server: ${{ github.event.inputs.lrc_server }}
+          lrx_url: ${{ github.event.inputs.lrx_url }}
           lrc_tenant: ${{ github.event.inputs.lrc_tenant }}
           lrc_project: ${{ github.event.inputs.lrc_project }}
           lrc_test_id: ${{ github.event.inputs.lrc_test_id }}
@@ -151,7 +150,7 @@ jobs:
           LRC_CLIENT_ID: ${{secrets.LRC_CLIENT_ID}}
           LRC_CLIENT_SECRET: ${{secrets.LRC_CLIENT_SECRET}}
         with:
-          lrc_server: 'https://loadrunner-cloud.saas.microfocus.com'
+          lrx_url: 'https://platform-ams.loadrunner.saas.microfocus.com'
           lrc_tenant: '123456789'
           lrc_project: '1'
           lrc_test_id: '123'
@@ -168,7 +167,7 @@ jobs:
     # replace the commit hash with latest
     uses: MicroFocus/lrc-gh-action/.github/workflows/lrc.yml@4733debb55362aa3d57115e566503481ddcf9a03
     with:
-      lrc_server: 'https://loadrunner-cloud.saas.microfocus.com'
+      lrx_url: 'https://platform-ams.loadrunner.saas.microfocus.com'
       lrc_tenant: '123456789'
       lrc_project: '1'
       lrc_test_id: '123'
