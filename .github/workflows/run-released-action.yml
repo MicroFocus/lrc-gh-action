@@ -1,59 +1,56 @@
-name: Test LRX branch (manual)
+name: Run Released LRC Action
 
-# Throwaway workflow to test the local branch action on a GitHub-hosted runner.
-# It builds the ncc bundle on the runner (bundle/index.js is gitignored and only
-# produced at release time) and then runs the local action via `uses: ./`.
 on:
   workflow_dispatch:
     inputs:
       lrx_url:
         description: 'LRX URL (used to authenticate and to discover the LRC URL)'
         required: true
+        type: string
       lrc_tenant:
         description: 'Tenant ID'
         required: true
+        type: string
       lrc_project:
         description: 'Project ID'
         required: true
         default: '1'
+        type: string
       lrc_test_id:
         description: 'Test ID'
         required: true
+        type: string
       lrc_output_dir:
         description: 'The directory to save results'
         required: false
         default: './results'
+        type: string
       lrc_report_types:
         description: 'Target report types. For example: pdf, docx, csv'
         required: false
         default: ''
+        type: string
 
 jobs:
-  test_run:
+  run_test:
+    name: Start a load test
     runs-on: ubuntu-latest
-    name: Start a load test (branch build)
+    outputs:
+      lrc_run_id: ${{ steps.lrc_run_test.outputs.lrc_run_id }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '16.x'
-      - name: Build action bundle
-        run: npm install && npm run build
       - name: Run test in LoadRunner Cloud
-        uses: ./ # local action from this branch
+        uses: MicroFocus/lrc-gh-action@v1
         id: lrc_run_test
         env:
           LRC_CLIENT_ID: ${{ secrets.LRC_CLIENT_ID }}
           LRC_CLIENT_SECRET: ${{ secrets.LRC_CLIENT_SECRET }}
         with:
-          lrx_url: ${{ github.event.inputs.lrx_url }}
-          lrc_tenant: ${{ github.event.inputs.lrc_tenant }}
-          lrc_project: ${{ github.event.inputs.lrc_project }}
-          lrc_test_id: ${{ github.event.inputs.lrc_test_id }}
-          lrc_output_dir: ${{ github.event.inputs.lrc_output_dir }}
-          lrc_report_types: ${{ github.event.inputs.lrc_report_types }}
+          lrx_url: ${{ inputs.lrx_url }}
+          lrc_tenant: ${{ inputs.lrc_tenant }}
+          lrc_project: ${{ inputs.lrc_project }}
+          lrc_test_id: ${{ inputs.lrc_test_id }}
+          lrc_output_dir: ${{ inputs.lrc_output_dir }}
+          lrc_report_types: ${{ inputs.lrc_report_types }}
       - name: Print test run ID
         if: ${{ always() }}
         run: echo "LRC Run ID is ${{ steps.lrc_run_test.outputs.lrc_run_id }}"
@@ -62,5 +59,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lrc-report-${{ steps.lrc_run_test.outputs.lrc_run_id }}
-          path: ${{ github.event.inputs.lrc_output_dir }}
+          path: ${{ inputs.lrc_output_dir }}
 
