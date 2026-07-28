@@ -1,6 +1,9 @@
 name: Run Released LRC Action
 
 on:
+  push:
+    branches:
+      - use-new-runner-and-lrx-url
   workflow_dispatch:
     inputs:
       lrx_url:
@@ -45,12 +48,12 @@ jobs:
           LRC_CLIENT_ID: ${{ secrets.LRC_CLIENT_ID }}
           LRC_CLIENT_SECRET: ${{ secrets.LRC_CLIENT_SECRET }}
         with:
-          lrx_url: ${{ inputs.lrx_url }}
-          lrc_tenant: ${{ inputs.lrc_tenant }}
-          lrc_project: ${{ inputs.lrc_project }}
-          lrc_test_id: ${{ inputs.lrc_test_id }}
-          lrc_output_dir: ${{ inputs.lrc_output_dir }}
-          lrc_report_types: ${{ inputs.lrc_report_types }}
+          lrx_url: ${{ inputs.lrx_url || vars.LRX_URL_NIR_QA1 }}
+          lrc_tenant: ${{ inputs.lrc_tenant || vars.LRC_TENANT_NIR_594775915 }}
+          lrc_project: ${{ inputs.lrc_project || vars.LRC_PROJECT || '1' }}
+          lrc_test_id: ${{ inputs.lrc_test_id || vars.LRC_TEST_ID }}
+          lrc_output_dir: ${{ inputs.lrc_output_dir || vars.LRC_OUTPUT_DIR || './results' }}
+          lrc_report_types: ${{ inputs.lrc_report_types || vars.LRC_REPORT_TYPES }}
       - name: Print test run ID
         if: ${{ always() }}
         run: echo "LRC Run ID is ${{ steps.lrc_run_test.outputs.lrc_run_id }}"
@@ -59,5 +62,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lrc-report-${{ steps.lrc_run_test.outputs.lrc_run_id }}
-          path: ${{ inputs.lrc_output_dir }}
+          path: ${{ inputs.lrc_output_dir || vars.LRC_OUTPUT_DIR || './results' }}
 
