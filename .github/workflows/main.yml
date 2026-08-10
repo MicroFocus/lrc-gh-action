@@ -25,7 +25,7 @@ on:
 
 jobs:
   hello_world_job:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     name: Start a load test
     steps:
       # To use this repository's private action,
