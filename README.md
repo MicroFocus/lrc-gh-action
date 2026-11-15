@@ -11,7 +11,7 @@ If you use self-hosted runners, refer to the [Hardening for self-hosted runners]
 
 ## Prerequisites
 
-1. Get your client id and secret key in LoadRunner Cloud. Refer to [API access keys](https://admhelp.microfocus.com/lrc/en/Latest/Content/Storm/Admin-APIAccess.htm)
+1. Get your client id and secret key in LoadRunner Cloud. Refer to [API access keys](https://admhelp.microfocus.com/lrc/en/Latest/Content/Storm/Admin-APIAccess.htm).
 2. Store the client id and secret key in GitHub [Secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository).   
    For example: `LRC_CLIENT_ID` and `LRC_CLIENT_SECRET`. These two secret names are used in following examples.
 3. Prepare a load test in LoadRunner Cloud.
