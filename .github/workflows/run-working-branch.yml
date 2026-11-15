@@ -1,3 +1,9 @@
+name: Test working branch (for developers)
+
+# Workflow to test the working branch action.
+# In the GitHub UI when running a workflow, choose the branch you want to test in the dropdown
+# This workflow will checkout this branch on the runner and will build its code.
+
 on:
   workflow_dispatch:
     inputs:
@@ -17,27 +23,33 @@ on:
       lrc_output_dir:
         description: 'The directory to save results'
         required: false
-        default: './'
+        default: './results'
       lrc_report_types:
         description: 'Target report types. For example: pdf, docx, csv'
         required: false
         default: ''
 
 jobs:
-  hello_world_job:
+  run_test:
     runs-on: ubuntu-latest
-    name: Start a load test
+    name: Start a load test (branch build)
     steps:
-      # To use this repository's private action,
-      # you must check out the repository
+        # To use this repository's private action,
+        # you must check out the repository
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '16.x'
+      - name: Build action bundle
+        run: npm install && npm run build
       - name: Run test in LoadRunner Cloud
-        uses: ./ # Uses an action in the root directory
+        uses: ./ # local action from this branch
         id: lrc_run_test
         env:
-          LRC_CLIENT_ID: ${{secrets.LRC_CLIENT_ID}}
-          LRC_CLIENT_SECRET: ${{secrets.LRC_CLIENT_SECRET}}
+          LRC_CLIENT_ID: ${{ secrets.LRC_CLIENT_ID }}
+          LRC_CLIENT_SECRET: ${{ secrets.LRC_CLIENT_SECRET }}
         with:
           lrx_url: ${{ github.event.inputs.lrx_url }}
           lrc_tenant: ${{ github.event.inputs.lrc_tenant }}
@@ -46,9 +58,11 @@ jobs:
           lrc_output_dir: ${{ github.event.inputs.lrc_output_dir }}
           lrc_report_types: ${{ github.event.inputs.lrc_report_types }}
       - name: Print test run ID
+        if: ${{ always() }}
         run: echo "LRC Run ID is ${{ steps.lrc_run_test.outputs.lrc_run_id }}"
       - name: Upload LRC results
-        uses: actions/upload-artifact@v3
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
         with:
           name: lrc-report-${{ steps.lrc_run_test.outputs.lrc_run_id }}
           path: ${{ github.event.inputs.lrc_output_dir }}

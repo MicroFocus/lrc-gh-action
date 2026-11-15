@@ -1,38 +1,33 @@
-name: Run Released LRC Action
+name: Run the latest released LRC action (for developers)
+
+# Workflow to test the existing released latest action version.
+# Will help to test changes in the LRC/LRX code and see how they affect the current released action.
+
 
 on:
-  push:
-    branches:
-      - use-new-runner-and-lrx-url
   workflow_dispatch:
     inputs:
-      lrc_server:
-        description: 'LRC URL'
+      lrx_url:
+        description: 'LRX URL (used to authenticate and to discover the LRC URL)'
         required: true
-        type: string
       lrc_tenant:
         description: 'Tenant ID'
         required: true
-        type: string
       lrc_project:
         description: 'Project ID'
         required: true
         default: '1'
-        type: string
       lrc_test_id:
         description: 'Test ID'
         required: true
-        type: string
       lrc_output_dir:
         description: 'The directory to save results'
         required: false
         default: './results'
-        type: string
       lrc_report_types:
         description: 'Target report types. For example: pdf, docx, csv'
         required: false
         default: ''
-        type: string
 
 jobs:
   run_test:
